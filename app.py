@@ -57,7 +57,7 @@ def pdfgene(deck_data,margin:int):
     for card_info in deck_data:
         card_name = card_info['name']
         for card_info2 in card_data:
-            if card_name in card_info2['name']:
+            if card_name == card_info2['name']:
                 version = card_info2['image_link'][0].split("/")[4].split(".")[0]
                 num = card_info['num']
                 url_list.append({"version": version, "num": num})
@@ -88,7 +88,7 @@ def pdfgene(deck_data,margin:int):
     for i in range(0, num_images, 9):
         for j in range(9):
             if i+j < num_images:
-                page.drawInlineImage(sorted_files[i+j], width(j,margin)*mm, height(j.margin)*mm,CARD_W*mm,CARD_H*mm)
+                page.drawInlineImage(sorted_files[i+j], width(j,margin)*mm, height(j,margin)*mm,CARD_W*mm,CARD_H*mm)
         page.showPage()
     # PDFファイルとして保存
     page.save()
