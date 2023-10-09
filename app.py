@@ -15,8 +15,8 @@ dic_name = "carddic.json"
 pdf_name = "proxy.pdf"
 
 url_list = []
-card_h = 84
-card_w = 60
+CARD_H = 84
+CARD_W = 60
 
 def main():
     ready()
@@ -35,10 +35,10 @@ def main():
     
 def height(i):
   n = i//3 + 1
-  return 297 - margin - (n*(card_h+margin))
+  return 297 - margin - (n*CARD_H)
 def width(i):
   n = i%3
-  return margin + (n*card_w)
+  return margin + (n*CARD_W)
 
 def ready():
     if not os.path.exists(pics_folder_path):
@@ -87,7 +87,7 @@ def pdfgene(deck_data):
     for i in range(0, num_images, 9):
         for j in range(9):
             if i+j < num_images:
-                page.drawInlineImage(sorted_files[i+j], width(j)*mm, height(j)*mm,60*mm,83*mm)
+                page.drawInlineImage(sorted_files[i+j], width(j)*mm, height(j)*mm,CARD_W*mm,CARD_H*mm)
         page.showPage()
     # PDFファイルとして保存
     page.save()
