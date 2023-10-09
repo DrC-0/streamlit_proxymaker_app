@@ -8,13 +8,10 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from reportlab.lib.pagesizes import A4, portrait
 
-margin = 7
-count = 0
 pics_folder_path = './pics'
 dic_name = "carddic.json"
 pdf_name = "proxy.pdf"
 
-url_list = []
 CARD_H = 84
 CARD_W = 60
 
@@ -28,15 +25,16 @@ def main():
     ]
     st.json(exjson)
     uped_file = st.file_uploader("Upload json file",type="json")
+    ipt = st.number_input("右および上の角からの距離",0,30,15)
     btn = st.button("Create PDF")
-    if uped_file is not None:
+    if uped_file is not None and ipt is not None:
         deck_data = json.load(uped_file)
-        if btn: pdfgene(deck_data=deck_data)
+        if btn: pdfgene(deck_data=deck_data,margin=ipt)
     
-def height(i):
+def height(i,margin):
   n = i//3 + 1
   return 297 - margin - (n*CARD_H)
-def width(i):
+def width(i,margin):
   n = i%3
   return margin + (n*CARD_W)
 
@@ -48,9 +46,11 @@ def ready():
         os.mkdir(pics_folder_path)
     if os.path.isfile(pdf_name):
         os.remove(pdf_name)
-    print("ready")
 
-def pdfgene(deck_data):
+def pdfgene(deck_data,margin:int):
+    
+    url_list = []
+
     with open(dic_name) as f:
         card_data = json.load(f)
 
@@ -64,6 +64,7 @@ def pdfgene(deck_data):
                 break
 
     count = 0
+
     for v in url_list:
         page_url = 'https://dm.takaratomy.co.jp/wp-content/card/cardimage/'+v['version'] + '.jpg'
         r = requests.get(page_url)
@@ -87,7 +88,7 @@ def pdfgene(deck_data):
     for i in range(0, num_images, 9):
         for j in range(9):
             if i+j < num_images:
-                page.drawInlineImage(sorted_files[i+j], width(j)*mm, height(j)*mm,CARD_W*mm,CARD_H*mm)
+                page.drawInlineImage(sorted_files[i+j], width(j,margin)*mm, height(j.margin)*mm,CARD_W*mm,CARD_H*mm)
         page.showPage()
     # PDFファイルとして保存
     page.save()
