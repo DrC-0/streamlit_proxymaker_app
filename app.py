@@ -66,7 +66,7 @@ def pdfgene(deck_data,margin:int):
     count = 0
 
     for v in url_list:
-        page_url = 'https://dm.takaratomy.co.jp/wp-content/card/cardimage/'+v['version'] + '.jpg'
+        page_url = 'https://dm.takaratomy.co.jp/wp-content/card/cardimage/'+v['version'] + '.jpg,verify=False'
         r = requests.get(page_url)
         for n in range(v['num']):
             count += 1
