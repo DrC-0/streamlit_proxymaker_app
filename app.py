@@ -25,7 +25,7 @@ def main():
     ]
     st.json(exjson)
     uped_file = st.file_uploader("Upload json file",type="json")
-    ipt = st.number_input("右および上の角からの距離",0,30,15)
+    ipt = st.number_input("左および上の角からの距離",0,30,15)
     btn = st.button("Create PDF")
     if uped_file is not None and ipt is not None:
         deck_data = json.load(uped_file)
